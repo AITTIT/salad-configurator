@@ -8,9 +8,21 @@ export interface BaseType {
 }
 
 export interface Bowl extends BaseType{
- base_type_id?: number;
+    base_type_id?: number;
     volume?: number;
     slot_count: number;
     shape: 'round' | 'square';
-
 }
+
+export interface Category {
+    id: number;
+    name: string;
+    base_type_id?: number;
+}
+
+export interface Ingredient extends Category {
+    categoryId: number;
+    diets: string[];
+    weight_grams: number;
+}
+
