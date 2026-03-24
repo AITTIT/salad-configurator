@@ -1,6 +1,7 @@
 import CenterBowl from "./components/CenterBowl";
 import BaseSelection from "./components/BaseSelection";
 import BowlSelection from "./components/BowlSelection";
+import IngredientSection from "./components/IngredientSection";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 
@@ -14,6 +15,7 @@ function App() {
           <CenterBowl />
           <BaseSelection />
         </div>
+        <IngredientSection />
       </main>
       <Footer />
     </div>
