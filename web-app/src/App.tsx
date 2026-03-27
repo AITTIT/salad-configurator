@@ -9,6 +9,8 @@ import Community from "./pages/Community";
 import Print from "./pages/Print";
 
 function App() {
+  
+
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
       <Header />
@@ -16,6 +18,7 @@ function App() {
         <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
           <BowlSelection />
           <BaseSelection />
+          
       <Routes>
           <Route path="/" element={<Configurator />} />
           <Route path="/community" element={<Community />} />
@@ -28,4 +31,5 @@ function App() {
     </div>
   )
 }
+
 export default App
