@@ -3,6 +3,10 @@ import BowlSelection from "./components/BowlSelection";
 import IngredientSection from "./components/IngredientSection";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
+import { Routes, Route,} from 'react-router-dom';
+import Configurator from "./pages/Configurator";
+import Community from "./pages/Community";
+import Print from "./pages/Print";
 
 function App() {
   return (
@@ -12,6 +16,11 @@ function App() {
         <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
           <BowlSelection />
           <BaseSelection />
+      <Routes>
+          <Route path="/" element={<Configurator />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/print" element={<Print />} />
+      </Routes>
         </div>
         <IngredientSection />
       </main>
