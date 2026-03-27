@@ -7,17 +7,9 @@ import { Routes, Route,} from 'react-router-dom';
 import Configurator from "./pages/Configurator";
 import Community from "./pages/Community";
 import Print from "./pages/Print";
-import IngredientCard from "./components/IngredientCard";
-import type { Ingredient } from "./types";
 
 function App() {
-  const testIngredient: Ingredient = {
-    id: 0,
-    name: 'cabbage',
-    categoryId: 1,
-    diets: ["G, L, V"],
-    weight_grams: 50,
-  }
+  
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans">
@@ -26,7 +18,7 @@ function App() {
         <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
           <BowlSelection />
           <BaseSelection />
-          <IngredientCard  ingredient={testIngredient}/>
+          
       <Routes>
           <Route path="/" element={<Configurator />} />
           <Route path="/community" element={<Community />} />
