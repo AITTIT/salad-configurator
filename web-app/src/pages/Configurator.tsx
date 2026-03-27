@@ -1,10 +1,10 @@
 import CenterBowl from "../components/CenterBowl";
 import { useState } from 'react';
-import type { Bowl } from '../types/index.ts';
+import type { Bowl, Ingredient } from '../types/index.ts';
 
 function Configurator() {
     const [bowls, setBowls] = useState<Bowl[]>([]);
-    const [categories, setCategories] = useState<Bowl[]>([]);
+    const [categories, setCategories] = useState<Ingredient[]>([]);
 
     return (
         <div>
