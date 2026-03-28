@@ -11,6 +11,8 @@ function Configurator() {
     useEffect(() => {
         const loadData = async () => {
             try {
+                setLoading(true);
+
                 const bowlsData = await getBowls();
                 const categoriesData = await getCategories();
 
@@ -18,6 +20,8 @@ function Configurator() {
                 setCategories(categoriesData);
             } catch (error) {
                 console.error("Failed loading configurator data: ", error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -31,8 +35,15 @@ function Configurator() {
     }, [bowls, categories]);
 
     return (
-        <div>
-            <CenterBowl />
+            <div>
+            {isLoading ? (
+                <div>
+                <div></div>
+                <p>Loading ingredients...</p>
+                </div>
+            ) : (
+                <CenterBowl />
+            )}
         </div>
     );
 }
