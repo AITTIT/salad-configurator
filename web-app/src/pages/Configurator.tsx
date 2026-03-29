@@ -5,6 +5,7 @@ import type { Bowl, Ingredient } from '../types/index.ts';
 import { getBowls, getIngredients, getCategories } from "../services/api.ts";
 import BaseSelection from "../components/BaseSelection.tsx";
 import BowlSelection from "../components/BowlSelection";
+import IngredientSection from "../components/IngredientSection.tsx";
 
 function Configurator() {
     const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -60,10 +61,13 @@ function Configurator() {
                     <p>Loading ingredients...</p>
                 </div>
             ) : (
-                <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
-                <BowlSelection/>
-                <CenterBowl />
-                <BaseSelection/>
+                <div className="flex flex-col gap-8">
+                    <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
+                        <BowlSelection bowls={bowls} />
+                        <CenterBowl />
+                        <BaseSelection />
+                    </div>
+                    <IngredientSection />
                 </div>
             )}
             </div>
