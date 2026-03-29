@@ -59,9 +59,10 @@ function Configurator() {
                     <p>Loading ingredients...</p>
                 </div>
             ) : (
-                <div>
+                <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
                 <BaseSelection/>
                 <CenterBowl />
+                <BaseSelection/>
                 </div>
             )}
             </div>
