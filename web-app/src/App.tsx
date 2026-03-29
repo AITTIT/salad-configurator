@@ -1,5 +1,3 @@
-import BaseSelection from "./components/BaseSelection";
-import BowlSelection from "./components/BowlSelection";
 import IngredientSection from "./components/IngredientSection";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
