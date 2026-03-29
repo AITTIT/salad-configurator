@@ -20,9 +20,11 @@ function Configurator() {
 
                 const bowlsData = await getBowls();
                 const categoriesData = await getCategories();
+                const ingredientsData = await getIngredients();
 
                 setBowls(bowlsData);
                 setCategories(categoriesData);
+                setIngredients(ingredientsData);
             } catch (error) {
                 console.error("Failed loading configurator data: ", error);
             } finally {
@@ -35,24 +37,11 @@ function Configurator() {
 
     // Print fetch into console for testing
     useEffect(() => {
-        console.log(bowls);
-        console.log(categories);
-    }, [bowls, categories]);
+        console.log("Fetched bowls: ", bowls);
+        console.log("Fetched categories:", categories);
+        console.log("Fetched ingredients:", ingredients);
+    }, [bowls, categories, ingredients]);
 
-    useEffect(() => {
-        getIngredients()
-            .then(setIngredients) // Tallennetaan ingredients-tilaan
-            .catch((error) => {
-                // TÄMÄ ON TECH SPECISTÄ: Tulostetaan virheet konsoliin
-                console.error("Virhe haettaessa aineksia:", error);
-            });
-    }, []);
-
-    useEffect(() => {
-        console.log("Haetut ainekset:", ingredients);
-    }, [ingredients]);
-
-   
     return (
             <div>
             {isLoading ? (
@@ -65,7 +54,7 @@ function Configurator() {
                     <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
                         <BowlSelection bowls={bowls} />
                         <CenterBowl />
-                        <BaseSelection />
+                        <BaseSelection  ingredients={ingredients} />
                     </div>
                     <IngredientSection />
                 </div>
