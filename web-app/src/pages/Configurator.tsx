@@ -1,11 +1,14 @@
 import CenterBowl from "../components/CenterBowl";
 import { useState, useEffect } from 'react';
 import type { Bowl, Ingredient } from '../types/index.ts';
-import { getBowls, getCategories } from "../services/api.ts";
+
+import { getBowls, getIngredients, getCategories } from "../services/api.ts";
+import BaseSelection from "../components/BaseSelection.tsx";
 
 function Configurator() {
     const [bowls, setBowls] = useState<Bowl[]>([]);
     const [categories, setCategories] = useState<Ingredient[]>([]);
+    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -34,6 +37,20 @@ function Configurator() {
         console.log(categories);
     }, [bowls, categories]);
 
+    useEffect(() => {
+        getIngredients()
+            .then(setIngredients) // Tallennetaan ingredients-tilaan
+            .catch((error) => {
+                // TÄMÄ ON TECH SPECISTÄ: Tulostetaan virheet konsoliin
+                console.error("Virhe haettaessa aineksia:", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        console.log("Haetut ainekset:", ingredients);
+    }, [ingredients]);
+
+   
     return (
             <div>
             {isLoading ? (
@@ -42,9 +59,12 @@ function Configurator() {
                     <p>Loading ingredients...</p>
                 </div>
             ) : (
+                <div>
+                <BaseSelection/>
                 <CenterBowl />
+                </div>
             )}
-        </div>
+            </div>
     );
 }
 export default Configurator
