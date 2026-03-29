@@ -28,7 +28,7 @@ function Configurator() {
         void loadData();
     }, []);
 
-    // A test to see if fetch works. 
+    // Print fetch into console for testing
     useEffect(() => {
         console.log(bowls);
         console.log(categories);
@@ -38,8 +38,8 @@ function Configurator() {
             <div>
             {isLoading ? (
                 <div>
-                <div></div>
-                <p>Loading ingredients...</p>
+                    {/*Create loading wheel here.*/}
+                    <p>Loading ingredients...</p>
                 </div>
             ) : (
                 <CenterBowl />
