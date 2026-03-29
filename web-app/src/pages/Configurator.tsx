@@ -4,6 +4,7 @@ import type { Bowl, Ingredient } from '../types/index.ts';
 
 import { getBowls, getIngredients, getCategories } from "../services/api.ts";
 import BaseSelection from "../components/BaseSelection.tsx";
+import BowlSelection from "../components/BowlSelection";
 
 function Configurator() {
     const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -60,7 +61,7 @@ function Configurator() {
                 </div>
             ) : (
                 <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
-                <BaseSelection/>
+                <BowlSelection/>
                 <CenterBowl />
                 <BaseSelection/>
                 </div>
