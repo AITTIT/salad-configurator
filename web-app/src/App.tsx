@@ -12,6 +12,7 @@ function App() {
       <Header />
       <main className="flex-1 max-w-6xl w-full mx-auto p-6 mt-4">
         <Routes>
+          {/* Routes /community and /print not yet bound to anything on page. */}
           <Route path="/community" element={<Community />} />
           <Route path="/" element={<Configurator />} />
           <Route path="/print" element={<Print />} />

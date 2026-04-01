@@ -56,7 +56,7 @@ function Configurator() {
                         <CenterBowl />
                         <BaseSelection  ingredients={ingredients} />
                     </div>
-                    <IngredientSection />
+                    <IngredientSection categories={categories} ingredients={ingredients}/>
                 </div>
             )}
             </div>

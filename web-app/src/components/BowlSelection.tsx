@@ -1,6 +1,7 @@
 import type { Bowl } from '../types';
 
 interface BowlSelectionProps {
+    // "bowls?" means it is optional.
     bowls?: Bowl[]; 
 }
 
