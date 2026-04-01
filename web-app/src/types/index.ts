@@ -23,6 +23,7 @@ export interface Ingredient extends Category {
     categoryId: number;
     diets: string[];
     weight_grams: number;
+    // fetch also returns image_url and barcode_url
 }
 
 export interface User{
