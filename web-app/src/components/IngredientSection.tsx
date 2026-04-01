@@ -1,4 +1,11 @@
-export default function IngredientSection() {
+import type { Category, Ingredient } from "../types";
+
+interface Props {
+    ingredient: Ingredient;
+    category: Category;
+}
+
+export default function IngredientSection( {ingredient, category}: Props) {
     return (
         <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex gap-5">
             <input type="text" className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 bordr-transparent focus:border-[#A2D135]" />
