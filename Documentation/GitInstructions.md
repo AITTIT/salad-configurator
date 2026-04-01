@@ -44,7 +44,7 @@
 
 11. Details can be written in the description section.
 
-(Might be redundant because GitHub seems to move the tasks already when the branch of the same issue is merged, but Writing "Closes [task_number]" moves the task to Done in the kanban board after merging.)
+(This might be redundant because GitHub seems to move the tasks already when the branch of the same issue is merged, but Writing "Closes #taskNumber" moves the task to Done in the kanban board after merging.)
 
 ![alt text](./docImages/pullRequestDescription.png)
 
