@@ -8,12 +8,18 @@ interface IngredientSectionProps {
 }
 
 export default function IngredientSection({ categories, ingredients }: IngredientSectionProps) {
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(1);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
 
   // Hide base category tab (id 6)
   const categoryTabs = categories?.filter((category) => category.id !== 6);
 
+  useEffect(() => {
+    if (selectedCategoryId == null && categoryTabs && categoryTabs.length > 0) {
+      setSelectedCategoryId(categoryTabs[0].id);
+    }
+  }, [categoryTabs, selectedCategoryId]);
+  
   useEffect(() => {
     const nonBaseIngredients =
       ingredients?.filter((ingredient) => ingredient.categoryId !== 6) ?? [];
@@ -53,7 +59,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
 
       <div className="flex flex-wrap gap-3 m-3">
         {filteredIngredients?.map((ingredient) => (
-          <IngredientCard ingredient={ingredient} />
+          <IngredientCard key={ingredient.id} ingredient={ingredient} />
         ))}
       </div>
 
