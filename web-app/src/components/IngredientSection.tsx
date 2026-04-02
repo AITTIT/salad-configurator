@@ -10,6 +10,7 @@ interface IngredientSectionProps {
 export default function IngredientSection({ categories, ingredients }: IngredientSectionProps) {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(1);
   const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Hide base category tab (id 6)
   const categoryTabs = categories?.filter((category) => category.id !== 6);
@@ -22,7 +23,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
       (ingredient) => ingredient.categoryId === selectedCategoryId)
     );
 
-  }, [ingredients, selectedCategoryId])
+  }, [ingredients, selectedCategoryId, searchQuery])
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center">
@@ -34,6 +35,9 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
         <input
           type="text"
           className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 focus:border-[#A2D135] bg-gray-200"
+          placeholder="Etsi tuotteita"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
         {categoryTabs?.map((category) => (
