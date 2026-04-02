@@ -1,65 +1,69 @@
 import CenterBowl from "../components/CenterBowl";
 import { useState, useEffect } from 'react';
-import type { Bowl, Ingredient } from '../types/index.ts';
+import type { Bowl, Category, Ingredient } from '../types/index.ts';
 
-import { getBowls, getIngredients, getCategories } from "../services/api.ts";
+import { getBowls, getIngredients, getCategories, getBaseIngredients } from "../services/api.ts";
 import BaseSelection from "../components/BaseSelection.tsx";
 import BowlSelection from "../components/BowlSelection";
 import IngredientSection from "../components/IngredientSection.tsx";
 
 function Configurator() {
-    const [bowls, setBowls] = useState<Bowl[]>([]);
-    const [categories, setCategories] = useState<Ingredient[]>([]);
-    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-    const [isLoading, setLoading] = useState(false);
+  const [bowls, setBowls] = useState<Bowl[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [baseIngredients, setBaseIngredients] = useState<Ingredient[]>([]);
+  const [isLoading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const loadData = async () => {
-            try {
-                setLoading(true);
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
 
-                const bowlsData = await getBowls();
-                const categoriesData = await getCategories();
-                const ingredientsData = await getIngredients();
+        const bowlsData = await getBowls();
+        const categoriesData = await getCategories();
+        const ingredientsData = await getIngredients();
+        const baseIngredientsData = await getBaseIngredients();
 
-                setBowls(bowlsData);
-                setCategories(categoriesData);
-                setIngredients(ingredientsData);
-            } catch (error) {
-                console.error("Failed loading configurator data: ", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        setBowls(bowlsData);
+        setCategories(categoriesData);
+        setIngredients(ingredientsData);
+        setBaseIngredients(baseIngredientsData);
+      } catch (error) {
+        console.error("Failed loading configurator data: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        void loadData();
-    }, []);
+    void loadData();
+  }, []);
 
-    // Print fetch into console for testing
-    useEffect(() => {
-        console.log("Fetched bowls: ", bowls);
-        console.log("Fetched categories:", categories);
-        console.log("Fetched ingredients:", ingredients);
-    }, [bowls, categories, ingredients]);
+  // Print fetch into console for testing
+  useEffect(() => {
+    console.log("Fetched bowls: ", bowls);
+    console.log("Fetched categories:", categories);
+    console.log("Fetched ingredients:", ingredients);
+    console.log("Fetched base ingredients:", baseIngredients);
+  }, [bowls, categories, ingredients, baseIngredients]);
 
-    return (
-            <div>
-            {isLoading ? (
-                <div>
-                    {/*Create loading wheel here.*/}
-                    <p>Loading ingredients...</p>
-                </div>
-            ) : (
-                <div className="flex flex-col gap-8">
-                    <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
-                        <BowlSelection bowls={bowls} />
-                        <CenterBowl />
-                        <BaseSelection  ingredients={ingredients} />
-                    </div>
-                    <IngredientSection categories={categories} ingredients={ingredients}/>
-                </div>
-            )}
-            </div>
-    );
+  return (
+    <div>
+      {isLoading ? (
+        <div>
+          {/*Create loading wheel here.*/}
+          <p>Loading ingredients...</p>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
+            <BowlSelection bowls={bowls} />
+            <CenterBowl />
+            <BaseSelection ingredients={baseIngredients} />
+          </div>
+          <IngredientSection categories={categories} ingredients={ingredients} />
+        </div>
+      )}
+    </div>
+  );
 }
 export default Configurator
