@@ -1,11 +1,17 @@
 import type { Bowl } from '../types';
+import { useIngredientStore } from '../store/useIngredientStore';
 
 interface BowlSelectionProps {
   // "bowls?" means it is optional.
   bowls?: Bowl[];
 }
 
+
 export default function BowlSelection({ bowls }: BowlSelectionProps) {
+
+  const selectedBowl = useIngredientStore((state) => state.selectedBowl);
+  const setBowl = useIngredientStore((state) => state.setBowl);
+
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg gap-5">
       <span className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center mb-4 shrink-0">
@@ -16,12 +22,15 @@ export default function BowlSelection({ bowls }: BowlSelectionProps) {
       {bowls?.map((bowl) => (
         <button
           key={bowl.id}
-          className="w-full h-12 border-2 border-gray-600 rounded-xl flex items-center justify-center px-4 hover:bg-gray-700 transition-colors"
+          onClick={() => setBowl(bowl)}
+          className={`w-full h-12 border-2 rounded-xl flex items-center justify-center px-4 transition-colors ${
+            selectedBowl?.id === bowl.id
+              ? "border-[#A2D135] bg-[#A2D135] text-black font-bold"
+              : "border-gray-600 hover:bg-gray-700"
+          }`}
         >
           {/* Nimi tulee BaseType:stä, joka periytyy Bowl-tyyppiin */}
           {bowl.name}
-
-
 
         </button>
       ))}
