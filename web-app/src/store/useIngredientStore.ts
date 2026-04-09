@@ -28,9 +28,36 @@ export const useIngredientStore = create<IngredientStore>((set, get) => ({
   clearSelection: () =>
     set({ slots: {}, selectedBowl: null }),
 
-  addIngredient: (item: Ingredient) => {
-    //empty placeholder
-  },
+  addIngredient: (item: Ingredient) =>
+    set((state) => {
+      if (item.categoryId === 6) {
+        return {
+          slots: {
+            ...state.slots,
+            base: item,
+          },
+        };
+      }
+
+      const slotCount = state.selectedBowl?.slot_count;
+      if (!slotCount) return state;
+
+      const emptySlotKey = Array.from(
+        { length: slotCount },
+        (_, index) => `slot-${index + 1}`
+      ).find((key) => !state.slots[key]);
+
+      if (!emptySlotKey) {
+        return state;
+      }
+
+      return {
+        slots: {
+          ...state.slots,
+          [emptySlotKey]: item,
+        },
+      };
+    }),
 
   removeIngredient: (id: string) => {
     //empty placeholder
