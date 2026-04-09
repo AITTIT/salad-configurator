@@ -6,6 +6,7 @@ import { getBowls, getIngredients, getCategories, getBaseIngredients } from "../
 import BaseSelection from "../components/BaseSelection.tsx";
 import BowlSelection from "../components/BowlSelection";
 import IngredientSection from "../components/IngredientSection.tsx";
+import { useIngredientStore, type IngredientStore } from "../store/useIngredientStore.ts";
 
 function Configurator() {
   const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -14,6 +15,8 @@ function Configurator() {
   const [baseIngredients, setBaseIngredients] = useState<Ingredient[]>([]);
   const [isLoading, setLoading] = useState(false);
 
+  const baseType = useIngredientStore((state: IngredientStore) => state.baseType);
+  
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -38,6 +41,10 @@ function Configurator() {
     void loadData();
   }, []);
 
+  // Filter bowls and categories to only those matching the selected baseType
+  const filteredBowls = bowls.filter((bowl) => bowl.base_type_id === baseType);
+  const filteredCategories = categories.filter((category) => category.base_type_id === baseType);
+
   // Print fetch into console for testing
   useEffect(() => {
     console.log("Fetched bowls: ", bowls);
@@ -56,11 +63,11 @@ function Configurator() {
       ) : (
         <div className="flex flex-col gap-8">
           <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
-            <BowlSelection bowls={bowls} />
+            <BowlSelection bowls={filteredBowls} />
             <CenterBowl />
             <BaseSelection ingredients={baseIngredients} />
           </div>
-          <IngredientSection categories={categories} ingredients={ingredients} />
+          <IngredientSection categories={filteredCategories} ingredients={ingredients} />
         </div>
       )}
     </div>
