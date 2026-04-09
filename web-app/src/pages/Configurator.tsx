@@ -7,6 +7,7 @@ import BaseSelection from "../components/BaseSelection.tsx";
 import BowlSelection from "../components/BowlSelection";
 import IngredientSection from "../components/IngredientSection.tsx";
 import { useIngredientStore, type IngredientStore } from "../store/useIngredientStore.ts";
+import SummaryBar from "../components/SummaryBar.tsx";
 
 function Configurator() {
   const [bowls, setBowls] = useState<Bowl[]>([]);
@@ -68,6 +69,7 @@ function Configurator() {
             <BaseSelection ingredients={baseIngredients} />
           </div>
           <IngredientSection categories={filteredCategories} ingredients={ingredients} />
+          <SummaryBar />
         </div>
       )}
     </div>
