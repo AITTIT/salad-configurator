@@ -9,7 +9,7 @@ export interface IngredientStore {
   setBowl: (bowl: Bowl | null) => void;
   clearSelection: () => void;
   addIngredient: (item: Ingredient) => void;
-  removeIngredient: (id: string) => void;
+  removeIngredient: (id: number) => void;
 }
 
 export const useIngredientStore = create<IngredientStore>((set, get) => ({
@@ -59,7 +59,19 @@ export const useIngredientStore = create<IngredientStore>((set, get) => ({
       };
     }),
 
-  removeIngredient: (id: string) => {
-    //empty placeholder
-  },
+  removeIngredient: (id: number) =>
+    set((state) => {
+      const newSlots = { ...state.slots };
+
+      const keyToClear = Object.keys(newSlots).find((key) => {
+        const item = newSlots[key];
+        return item?.id === id;
+      });
+
+      if (!keyToClear) return state;
+
+      newSlots[keyToClear] = null;
+
+      return { slots: newSlots };
+    }),
 }));
