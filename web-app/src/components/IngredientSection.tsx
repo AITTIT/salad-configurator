@@ -10,6 +10,7 @@ interface IngredientSectionProps {
 export default function IngredientSection({ categories, ingredients }: IngredientSectionProps) {
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Hide base category tab (id 6)
   const categoryTabs = categories?.filter((category) => category.id !== 6);
@@ -21,14 +22,33 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
   }, [categoryTabs, selectedCategoryId]);
   
   useEffect(() => {
-    const nonBaseIngredients =
-      ingredients?.filter((ingredient) => ingredient.categoryId !== 6) ?? [];
+    // a lookup of category IDs that are allowed for current baseType.
+    const allowedCategoryIds = new Set((categories ?? []).map((category) => category.id));
 
-    setFilteredIngredients(nonBaseIngredients.filter(
-      (ingredient) => ingredient.categoryId === selectedCategoryId)
+    // only keep ingredients that belong to allowed categories, and exclude base 6 category.
+    const allowedIngredients = (ingredients ?? []).filter(
+      (ingredient) =>
+        ingredient.categoryId !== 6 && allowedCategoryIds.has(ingredient.categoryId)
     );
 
-  }, [ingredients, selectedCategoryId])
+    // Normalize search input for case-insensitive matching and trim extra spaces.
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    const isSearching = normalizedQuery.length > 0;
+
+    const nextFiltered = allowedIngredients.filter((ingredient) => {
+      if (isSearching) {
+        // Search takes priority
+        // search across all categories limited by basetype
+        return ingredient.name.toLowerCase().includes(normalizedQuery);
+      }
+      
+      // No search text:
+      // show only items from selected tab/category.
+      return ingredient.categoryId === selectedCategoryId;
+    });
+
+    setFilteredIngredients(nextFiltered);
+  }, [ingredients, categories, selectedCategoryId, searchQuery])
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center">
@@ -40,6 +60,9 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
         <input
           type="text"
           className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 focus:border-[#A2D135] bg-gray-200"
+          placeholder="Etsi tuotteita"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
         {categoryTabs?.map((category) => (
