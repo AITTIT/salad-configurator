@@ -18,7 +18,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
       aria-modal="true"
     >
       <div
-        className="bg-white rounded-lg p-6 max-w-lg w-full relative shadow-lg"
+        className="bg-white rounded-lg p-6 max-w-lg w-full relative shadow-lg text-black"
         onClick={(e) => e.stopPropagation()}
       >
         <button

@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import LoginModal from "./LoginModal";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   return (
     <div className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
 
@@ -18,7 +20,7 @@ export function Header() {
       </Link>
 
       {/* RIGHT MENU */}
-      <div className="relative">
+       <div className="relative">
         {/* Hamburger button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -30,15 +32,25 @@ export function Header() {
           <span className="w-7 h-0.5 bg-white block"></span>
         </button>
 
-        {/* Dropdown menu - only renders when isMenuOpen is true */}
+        {/* Dropdown menu */}
         {isMenuOpen && (
           <div className="absolute right-0 bg-[#A2D135] text-black rounded-b-3xl rounded-t-xl px-6 py-4 flex flex-col gap-2 min-w-[200px] shadow-md z-50">
-            <Link to="/" onClick={() => setIsMenuOpen(false)} className="hover:font-bold transition-all">
+            
+            {/* LOGIN BUTTON (changed from Link → button) */}
+            <button
+              onClick={() => {
+                setIsLoginOpen(true);
+                setIsMenuOpen(false);
+              }}
+              className="text-left hover:font-bold transition-all"
+            >
               Kirjaudu sisään
-            </Link>
+            </button>
+
             <Link to="/community" onClick={() => setIsMenuOpen(false)} className="hover:font-bold transition-all">
               Tallennetut reseptit
             </Link>
+
             <Link to="/print" onClick={() => setIsMenuOpen(false)} className="hover:font-bold transition-all">
               ohjeet ja tuki
             </Link>
@@ -46,7 +58,14 @@ export function Header() {
         )}
       </div>
 
-
+      {/* LOGIN MODAL */}
+     <LoginModal
+  isOpen={isLoginOpen}
+  onClose={() => setIsLoginOpen(false)}
+  onLogin={({ email, password }) => {
+    console.log("Login:", email, password);
+  }}
+/>
 
     </div>
   );
