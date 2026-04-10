@@ -18,7 +18,7 @@ export default function BowlSelection({ bowls }: BowlSelectionProps) {
         1.
       </span>
 
-      {/* Käydään bowls-taulukko läpi .map()-funktiolla */}
+      {/* Go through bowls array with .map() function */}
       {bowls?.map((bowl) => (
         <button
           key={bowl.id}
@@ -29,9 +29,8 @@ export default function BowlSelection({ bowls }: BowlSelectionProps) {
               : "border-gray-600 hover:bg-gray-700"
           }`}
         >
-          {/* Nimi tulee BaseType:stä, joka periytyy Bowl-tyyppiin */}
+          {/* Name comes from BaseType, which is inherited to Bowl type */}
           {bowl.name}
-
         </button>
       ))}
 

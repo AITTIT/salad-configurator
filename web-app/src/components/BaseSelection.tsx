@@ -6,7 +6,7 @@ interface BaseSelectionProps {
 
 export default function BaseSelection({ ingredients }: BaseSelectionProps) {
 
-  //filtteri id === 6, joka on base-kategoria
+  //filtteri id === 6, base-category
   const bases = ingredients?.filter((ingredient) => ingredient.categoryId === 6);
 
   return (
@@ -25,7 +25,7 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
         </div>
       ))}
 
-      {/* Latausteksti, jos aineksia ei ole vielä saatu */}
+      {/* Loading text if no bases yet received. */}
       {(!bases || bases.length === 0) && (
         <div className="text-gray-400 text-sm mt-4">Ladataan pohjia...</div>
       )}
