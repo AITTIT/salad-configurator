@@ -10,7 +10,6 @@ export default function IngredientCard({ ingredient }: IngredientCardProps) {
 
   return (
     <div
-    //currently has an empty placeholder body  so clicking won't do anything
     onClick={() => addIngredient(ingredient)}
     className="w-40 h-40 p-4 border rounded-lg shadow-md flex flex-col justify-between bg-white">
       <h3 className="text-lg font-semibold text-center text-black">{ingredient.name}</h3>

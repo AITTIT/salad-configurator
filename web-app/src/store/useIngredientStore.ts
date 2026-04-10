@@ -12,7 +12,7 @@ export interface IngredientStore {
   removeIngredient: (id: number) => void;
 }
 
-export const useIngredientStore = create<IngredientStore>((set, get) => ({
+export const useIngredientStore = create<IngredientStore>((set) => ({
   slots: {},
   baseType: 1,
   selectedBowl: null,

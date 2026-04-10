@@ -13,7 +13,7 @@ export default function CenterBowl() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
       <div className="flex-1 flex flex-row gap-5">
-        {/* salads button */}
+        {/* Salaatti button */}
         <button
           onClick={() => setBaseType(1)}
           className={`flex gap-3 mb-6 items-center px-4 py-2 rounded-full font-bold transition-colors ${
@@ -24,7 +24,7 @@ export default function CenterBowl() {
         >
           Salaatti
         </button>
-        {/* rahka button */}
+        {/* Rahka button */}
          <button
           onClick={() => setBaseType(2)}
           className={`flex gap-3 mb-6 items-center px-4 py-2 rounded-full font-bold transition-colors ${
