@@ -11,11 +11,12 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     onLogin?.({ email, password });
     setEmail("");
     setPassword("");
+    console.log('Login clicked');
     onClose();
   };
 
