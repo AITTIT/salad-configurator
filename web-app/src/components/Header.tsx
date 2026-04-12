@@ -1,10 +1,32 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoginModal from "./LoginModal";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const menuContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // Runs on every mousedown anywhere in the document
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        isMenuOpen &&
+        menuContainerRef.current &&
+        !menuContainerRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup listener to avoid duplicates
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]); // Effect recreated when open/closed state changes
+
+
   return (
     <div className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
 
@@ -20,7 +42,7 @@ export function Header() {
       </Link>
 
       {/* RIGHT MENU */}
-       <div className="relative">
+       <div ref={menuContainerRef} className="relative">
         {/* Hamburger button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
