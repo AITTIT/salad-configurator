@@ -2,7 +2,7 @@ import type { Bowl } from '../types';
 import { useIngredientStore } from '../store/useIngredientStore';
 
 interface BowlSelectionProps {
-  // "bowls?" means it is optional.
+  // "bowls?" means the prop is optional.
   bowls?: Bowl[];
 }
 
