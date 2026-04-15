@@ -37,7 +37,28 @@ export default function CenterBowl() {
           Rahka
         </button>
 
-        <button className="flex gap-3 mb-6 items-center">Icons</button>
+        <div className="flex gap-3 mb-6 items-center">
+          <button
+            onClick={() => {
+              if (window.confirm('Haluatko tyhjätä rasian?')) {
+                /* clearSelection() also removes the bowl selection */
+                clearSelection();
+              }
+            }}
+          >
+            🗑️
+            </button>
+          <button
+            onClick={() => alert('Feature coming soon!')}
+          >
+            ↩️
+          </button>
+          <button
+            onClick={() => alert('Feature coming soon!')}
+          >
+            💾
+          </button>
+        </div>
       </div>
       <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 flex items-center justify-center shadow-inner relative">
         <div className="flex flex-wrap gap-2 p-4 justify-center">
