@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useIngredientStore } from "../store/useIngredientStore";
 import type { Ingredient } from "../types";
+import { calculateTotalWeight } from "../utils/calculations";
 
 export default function SummaryBar() {
   const slots = useIngredientStore((state) => state.slots);
@@ -12,10 +13,7 @@ export default function SummaryBar() {
   );
 
   // Calculate total weight. Initial value 0.
-  const totalWeight = activeIngredients.reduce(
-    (sum, item) => sum + item.weight_grams,
-    0
-  );
+  const totalWeight = calculateTotalWeight(activeIngredients);
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full flex flex-col md:flex-row gap-8 shadow-xl">
