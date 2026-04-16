@@ -3,7 +3,7 @@ export interface BaseType {
     name: string;
     price?: number;
     image_url?: string;
-    barcode_url?: String;
+    barcode_url?: string;
 }
 
 export interface Bowl extends BaseType{
