@@ -29,3 +29,23 @@ export async function getBaseIngredients() {
   }
   return response.json();
 }
+
+export async function login(email: string, password: string) {
+  const response = await fetch("https://fresse-api.onrender.com/api/auth/login", {
+    method: 'POST',
+    headers: {'Content-type': 'application/json'},
+    body: JSON.stringify({
+      // Is this supposed to be username or email?
+      email: email,
+      password: password
+    })
+    });
+
+    if (!response.ok) {
+      // In English or Finnish?
+      throw new Error("Login failed");
+    }
+
+  
+  
+}
