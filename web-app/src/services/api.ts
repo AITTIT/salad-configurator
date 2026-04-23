@@ -43,6 +43,18 @@ export async function login(email: string, password: string) {
   if (!response.ok) {
     throw new Error("Invalid credentials");
   }
+  return response.json();
+}
 
+
+export async function getPrices(token: string) {
+  const response = await fetch("https://fresse-api.onrender.com/api/prices", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch prices");
+  }
   return response.json();
 }
