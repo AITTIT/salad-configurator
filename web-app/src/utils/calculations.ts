@@ -2,9 +2,7 @@ import type { Ingredient, PriceListItem } from "../types";
 
 export function calculateTotalWeight(ingredients: Ingredient[]): number {
   return ingredients.reduce(
-    (sum, item) => sum + item.weight_grams,
-    0
-  );
+    (sum, item) => sum + item.weight_grams, 0);
 }
 
 export function calculateTotalPrice(
