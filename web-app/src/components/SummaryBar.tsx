@@ -1,19 +1,21 @@
 import { Link } from "react-router-dom";
 import { useIngredientStore } from "../store/useIngredientStore";
 import type { Ingredient } from "../types";
-import { calculateTotalWeight } from "../utils/calculations";
+import { calculateTotalWeight, calculateTotalPrice } from "../utils/calculations";
+import { usePriceStore } from "../store/usePriceStore";
 
 export default function SummaryBar() {
   const slots = useIngredientStore((state) => state.slots);
   const removeIngredient = useIngredientStore((state) => state.removeIngredient);
+  const prices = usePriceStore((state) => state.prices);
 
   // Convert slots object into active ingredient array (no nulls)
   const activeIngredients = Object.values(slots).filter(
     (item): item is Ingredient => item !== null
   );
 
-  // Calculate total weight. Initial value 0.
   const totalWeight = calculateTotalWeight(activeIngredients);
+  const totalPrice = calculateTotalPrice(activeIngredients, prices);
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full flex flex-col md:flex-row gap-8 shadow-xl">
@@ -60,11 +62,13 @@ export default function SummaryBar() {
       {/* right */}
       <div className="flex-1 flex flex-col justify-center items-center gap-6">
         <div className="bg-white text-black font-black text-2xl py-3 w-32 rounded-full mb-2 shadow-md text-center">
+          {/* This seems to always be an integer, so toFixed is not required. */}
           {totalWeight} g
         </div>
 
         <div className="bg-white text-black font-black text-2xl py-3 w-32 rounded-full mb-2 shadow-md text-center">
-          Price
+          {/* This rounding to two decimal places avoids floating point inaccuracies. */}
+          {totalPrice.toFixed(2)} €
         </div>
       </div>
     </div>
