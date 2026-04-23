@@ -13,9 +13,11 @@ export default function SaveRecipeModal({ isOpen, onClose }: SaveRecipeModalProp
   const [recipeName, setRecipeName] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const slots = useIngredientStore((state) => state.slots);
   const selectedBowl = useIngredientStore((state) => state.selectedBowl);
+  const clearSelection = useIngredientStore((state) => state.clearSelection);
   const token = useAuthStore((state) => state.token);
 
    const handleSave = async () => {
@@ -34,7 +36,10 @@ export default function SaveRecipeModal({ isOpen, onClose }: SaveRecipeModalProp
         ingredientIds,
         is_public: isPublic,
       });
-      onClose();
+      setError(null);
+      setSuccess("Resepti tallennettu!");
+      clearSelection();
+      
     } catch {
       setError("Tallennus epäonnistui. Yritä uudelleen.");
     }
@@ -43,15 +48,15 @@ export default function SaveRecipeModal({ isOpen, onClose }: SaveRecipeModalProp
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex flex-col gap-4 p-4">
-        <h2 className="text-xl font-bold">Save Recipe</h2>
+        <h2 className="text-xl font-bold">Tallenna resepti</h2>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold">Recipe Name</label>
+          <label className="text-sm font-semibold">Reseptin nimi</label>
           <input
             type="text"
             value={recipeName}
             onChange={(e) => setRecipeName(e.target.value)}
-            placeholder="Enter recipe name..."
+            placeholder="Reseptin nimi..."
             className="border-2 rounded-lg px-4 py-2 outline-none focus:border-[#A2D135]"
           />
         </div>
@@ -65,11 +70,12 @@ export default function SaveRecipeModal({ isOpen, onClose }: SaveRecipeModalProp
             className="w-4 h-4 accent-[#A2D135]"
           />
           <label htmlFor="isPublic" className="text-sm font-semibold">
-            Make Public
+            Aseta julkiseksi
           </label>
         </div>
 
        {error && <p className="text-red-500 text-sm">{error}</p>}
+       {success && <p className="text-red-500 text-sm">{success}</p>}
        
         <div className="flex gap-3 justify-end mt-2">
           <button
