@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import LoginModal from "./LoginModal";
+import { useAuthStore } from "../store/useAuthStore";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const menuContainerRef = useRef<HTMLDivElement | null>(null);
+  const { token, userName, logout } = useAuthStore();
 
   useEffect(() => {
     // Runs on every mousedown anywhere in the document
@@ -59,22 +61,40 @@ export function Header() {
           <div className="absolute right-0 bg-[#A2D135] text-black rounded-b-3xl rounded-t-xl px-6 py-4 flex flex-col gap-2 min-w-[200px] shadow-md z-50">
             
             {/* LOGIN BUTTON (changed from Link → button) */}
-            <button
-              onClick={() => {
-                setIsLoginOpen(true);
-                setIsMenuOpen(false);
-              }}
-              className="text-left hover:font-bold transition-all"
-            >
-              Kirjaudu sisään
-            </button>
+            {/* Below ternary code requires Task 5.2, so it hasn't been tested yet. You can remove this comment when 
+            Tasks 5.2 and 5.3 have been completed. */}
+            {!token ? (
+              <button
+                onClick={() => {
+                  setIsLoginOpen(true);
+                  setIsMenuOpen(false);
+                }}
+                className="text-left hover:font-bold transition-all"
+              >
+                Kirjaudu sisään
+              </button>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <span className="font-bold">Hei, {userName}</span>
+
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-left hover:font-bold transition-all"
+                >
+                  Kirjaudu ulos
+                </button>
+              </div>
+            )}
 
             <Link to="/community" onClick={() => setIsMenuOpen(false)} className="hover:font-bold transition-all">
               Tallennetut reseptit
             </Link>
 
             <Link to="/print" onClick={() => setIsMenuOpen(false)} className="hover:font-bold transition-all">
-              ohjeet ja tuki
+              Ohjeet ja tuki
             </Link>
           </div>
         )}
@@ -82,12 +102,12 @@ export function Header() {
 
       {/* LOGIN MODAL */}
      <LoginModal
-  isOpen={isLoginOpen}
-  onClose={() => setIsLoginOpen(false)}
-  onLogin={({ email, password }) => {
-    console.log("Login:", email, password);
-  }}
-/>
+      isOpen={isLoginOpen}
+      onClose={() => setIsLoginOpen(false)}
+      onLogin={({ email, password }) => {
+        console.log("Login:", email, password);
+      }}
+    />
 
     </div>
   );
