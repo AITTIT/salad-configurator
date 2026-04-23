@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Modal from "./Modal";
+import { login } from "../services/api";
+import { useAuthStore } from "../store/useAuthStore";
 
 export interface LoginModalProps {
   isOpen: boolean;
@@ -10,19 +12,40 @@ export interface LoginModalProps {
 export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const setAuth = useAuthStore((state) => state.login);
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onLogin?.({ email, password });
-    setEmail("");
-    setPassword("");
-    console.log('Login clicked');
-    onClose();
+    setError("");
+
+    try {
+      const result = await login(email, password) as {
+        token?: string;
+        name?: string;
+        user?: { name?: string };
+      };
+
+      const token = result.token;
+      const name = result.name ?? result.user?.name;
+
+      if (!token || !name) {
+        throw new Error("Invalid credentials");
+      }
+
+      setAuth(token, name);
+      onLogin?.({ email, password });
+      setEmail("");
+      setPassword("");
+      onClose();
+    } catch {
+      setError("Virheellinen sähköposti tai salasana.");
+    }
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit} className="w-full max-w-md">
+      <form onSubmit={handleLogin} className="w-full max-w-md">
         <h2 className="text-lg font-medium mb-4">Kirjaudu sisään</h2>
 
         <label className="block mb-3">
@@ -50,6 +73,8 @@ export default function LoginModal({ isOpen, onClose, onLogin }: LoginModalProps
             aria-label="Salasana"
           />
         </label>
+
+        {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
 
         <div className="flex justify-end">
           <button

@@ -35,17 +35,14 @@ export async function login(email: string, password: string) {
     method: 'POST',
     headers: {'Content-type': 'application/json'},
     body: JSON.stringify({
-      // Is this supposed to be username or email?
       email: email,
       password: password
     })
-    });
+  });
 
-    if (!response.ok) {
-      // In English or Finnish?
-      throw new Error("Login failed");
-    }
+  if (!response.ok) {
+    throw new Error("Invalid credentials");
+  }
 
-  
-  
+  return response.json();
 }
