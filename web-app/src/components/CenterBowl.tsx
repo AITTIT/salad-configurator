@@ -8,6 +8,7 @@ export default function CenterBowl() {
   const slots = useIngredientStore((state) => state.slots);
   const selectedBowl = useIngredientStore((state) => state.selectedBowl);
   const [isSaveOpen, setIsSaveOpen] = useState(false);
+  const clearSelection = useIngredientStore((state) => state.clearSelection);
 
   const activeIngredients = Object.values(slots).filter(
     (ingredient) => ingredient !== null

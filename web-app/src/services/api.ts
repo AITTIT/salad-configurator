@@ -29,3 +29,32 @@ export async function getBaseIngredients() {
   }
   return response.json();
 }
+
+export async function login(email: string, password: string) {
+  const response = await fetch("https://fresse-api.onrender.com/api/auth/login", {
+    method: 'POST',
+    headers: {'Content-type': 'application/json'},
+    body: JSON.stringify({
+      email: email,
+      password: password
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error("Invalid credentials");
+  }
+  return response.json();
+}
+
+
+export async function getPrices(token: string) {
+  const response = await fetch("https://fresse-api.onrender.com/api/prices", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch prices");
+  }
+  return response.json();
+}
