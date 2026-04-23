@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { useIngredientStore } from "../store/useIngredientStore";
-
+import SaveRecipeModal from "./SaveRecipeModal";
 export default function CenterBowl() {
 
   const baseType = useIngredientStore((state) => state.baseType);
   const setBaseType = useIngredientStore((state) => state.setBaseType);
   const slots = useIngredientStore((state) => state.slots);
   const selectedBowl = useIngredientStore((state) => state.selectedBowl);
+  const [isSaveOpen, setIsSaveOpen] = useState(false);
   const clearSelection = useIngredientStore((state) => state.clearSelection);
 
   const activeIngredients = Object.values(slots).filter(
@@ -55,10 +57,11 @@ export default function CenterBowl() {
             ↩️
           </button>
           <button
-            onClick={() => alert('Feature coming soon!')}
+            onClick={() => setIsSaveOpen(true)}
           >
             💾
           </button>
+          <SaveRecipeModal isOpen={isSaveOpen} onClose={() => setIsSaveOpen(false)} />
         </div>
       </div>
       <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 flex items-center justify-center shadow-inner relative">
