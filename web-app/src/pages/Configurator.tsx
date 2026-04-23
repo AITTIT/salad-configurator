@@ -7,6 +7,8 @@ import BaseSelection from "../components/BaseSelection.tsx";
 import BowlSelection from "../components/BowlSelection";
 import IngredientSection from "../components/IngredientSection.tsx";
 import { useIngredientStore, type IngredientStore } from "../store/useIngredientStore.ts";
+import { usePriceStore } from "../store/usePriceStore.ts";
+import { useAuthStore } from "../store/useAuthStore.ts";
 import SummaryBar from "../components/SummaryBar.tsx";
 
 function Configurator() {
@@ -17,6 +19,8 @@ function Configurator() {
   const [isLoading, setLoading] = useState(false);
 
   const baseType = useIngredientStore((state: IngredientStore) => state.baseType);
+  const authToken = useAuthStore((state) => state.token);
+  const fetchPrices = usePriceStore((state) => state.fetchPrices);
   
   useEffect(() => {
     const loadData = async () => {
@@ -41,6 +45,12 @@ function Configurator() {
 
     void loadData();
   }, []);
+
+  useEffect(() => {
+    if (!authToken) return;
+
+    void fetchPrices(authToken);
+  }, [authToken, fetchPrices]);
 
   // Filter bowls and categories to only those matching the selected baseType
   const filteredBowls = bowls.filter((bowl) => bowl.base_type_id === baseType);
