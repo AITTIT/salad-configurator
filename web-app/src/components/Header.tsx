@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import LoginModal from "./LoginModal";
 import { useAuthStore } from "../store/useAuthStore";
+import logo from  "../assets/fresse-logo.png";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,9 +34,8 @@ export function Header() {
     <div className="bg-zinc-800 text-white w-full h-32 flex justify-between items-start px-8 pt-4">
 
       {/* LINK / LOGO */}
-      {/* Fresse logo can be found from https://salaattimestari.fi/ . Download it and add it to the upper left corner. */}
-      <Link to="/" className="text-white">
-        Fresh Food Factory - FRESSE
+      <Link to="/">
+         <img src={logo} alt="Fresse logo" className="h-26 w-auto ml-4" />
       </Link>
 
       {/* CENTER */}
