@@ -1,4 +1,5 @@
 import type { Ingredient } from '../types';
+import { useIngredientStore } from "../store/useIngredientStore"
 
 interface BaseSelectionProps {
   ingredients?: Ingredient[];
@@ -8,6 +9,11 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
 
   //filtteri id === 6, base-category
   const bases = ingredients;
+
+  const slots = useIngredientStore((state) => state.slots);
+  const addIngredient = useIngredientStore((state) => state.addIngredient);
+
+  const selectedBase = slots["base"] ?? null;
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg">
@@ -19,7 +25,17 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
       {bases?.map((base) => (
         <div
           key={base.id}
-          className="border-b border-gray-600 pb-2 flex justify-end gap-4 items-center w-full mt-3"
+          role="button"
+          tabIndex={0}
+          onClick={() => addIngredient(base)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") addIngredient(base);
+          }}
+          className={`w-full h-12 border-2 rounded-xl flex items-center justify-between px-4 mt-3 cursor-pointer transition-colors ${
+            selectedBase?.id === base.id
+              ? "border-[#A2D135] bg-[#A2D135] text-black font-bold"
+              : "border-gray-600 hover:bg-gray-700"
+          }`}
         >
           {base.name}
         </div>
