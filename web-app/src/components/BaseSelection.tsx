@@ -7,7 +7,7 @@ interface BaseSelectionProps {
 export default function BaseSelection({ ingredients }: BaseSelectionProps) {
 
   //filtteri id === 6, base-category
-  const bases = ingredients?.filter((ingredient) => ingredient.categoryId === 6);
+  const bases = ingredients;
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg">
