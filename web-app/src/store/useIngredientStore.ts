@@ -10,6 +10,7 @@ export interface IngredientStore {
   clearSelection: () => void;
   addIngredient: (item: Ingredient) => void;
   removeIngredient: (id: number) => void;
+  clearSlot: (slotId: string) => void;
 }
 
 export const useIngredientStore = create<IngredientStore>((set) => ({
@@ -74,4 +75,10 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
 
       return { slots: newSlots };
     }),
+
+     clearSlot: (slotId: string) =>
+    set((state) => ({
+      slots: { ...state.slots, [slotId]: null },
+    })),
+    
 }));
