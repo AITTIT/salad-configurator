@@ -1,13 +1,13 @@
-export async function getBowls() {
-  const response = await fetch("https://fresse-api.onrender.com/api/bowls");
+export async function getBowls(typeId: number) {
+  const response = await fetch(`https://fresse-api.onrender.com/api/bowls?type_id=${typeId}`);
   if (!response.ok) {
     throw new Error("Failed to fetch bowls");
   }
   return response.json();
 }
 
-export async function getCategories() {
-  const response = await fetch("https://fresse-api.onrender.com/api/categories");
+export async function getCategories(typeId: number) {
+  const response = await fetch(`https://fresse-api.onrender.com/api/categories?type_id=${typeId}`);
   if (!response.ok) {
     throw new Error("Failed to fetch categories");
   }
