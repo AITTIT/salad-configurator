@@ -64,8 +64,30 @@ export default function CenterBowl() {
           <SaveRecipeModal isOpen={isSaveOpen} onClose={() => setIsSaveOpen(false)} />
         </div>
       </div>
-      <div className="w-80 h-80 rounded-full border-[12px] border-gray-200 bg-gray-50 flex items-center justify-center shadow-inner relative">
-        <div className="flex flex-wrap gap-2 p-4 justify-center">
+      <div className="w-80 h-80 bg-transparent flex items-center justify-center shadow-inner relative">
+        {selectedBowl?.image_url && (
+          <img 
+          src={selectedBowl.image_url} 
+          alt={selectedBowl.name ?? "bowl"}
+          className="absolute inset-0 z-10 w-full h-full object-contain pointer-events-none"
+          aria-hidden="true"
+          />
+        )}
+
+        {selectedBowl?.slot_count && (
+          <img
+            src={
+              selectedBowl.slot_count === 6
+                ? "https://www.cc.puv.fi/~asa/fresh/images/jakaja_6_lohkoa.png"
+                : "https://www.cc.puv.fi/~asa/fresh/images/jakaja_4_lohkoa.png"
+            }
+            alt={`${selectedBowl.slot_count}-slot divider`}
+            className="absolute inset-0 z-20 w-full h-full object-contain pointer-events-none"
+            aria-hidden="true"
+          />
+        )}
+
+        <div className="relative z-20 flex flex-wrap gap-2 p-4 justify-center">
           {activeIngredients.map((item) => (
             <span
               key={item.id}
