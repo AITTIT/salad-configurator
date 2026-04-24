@@ -8,6 +8,8 @@ export default function SummaryBar() {
   const slots = useIngredientStore((state) => state.slots);
   const removeIngredient = useIngredientStore((state) => state.removeIngredient);
   const prices = usePriceStore((state) => state.prices);
+  const clearSlot = useIngredientStore((s) => s.clearSlot);
+  const getSlotKey = useIngredientStore((s) => s.getSlotKeyByIngredientId);
 
   // Convert slots object into active ingredient array (no nulls)
   const activeIngredients = Object.values(slots).filter(
@@ -40,7 +42,11 @@ export default function SummaryBar() {
                 <span>{item.name}</span>
                 <button
                 type="button"
-                onClick={() => removeIngredient(item.id)}
+                onClick={() => {
+                  const slotKey = getSlotKey(item.id);
+                  if (slotKey) clearSlot(slotKey);
+                  removeIngredient(item.id);
+                }}
                 aria-label={`Poista ${item.name}`}
                 className="w-5 h-5 rounded-full bg-zinc-700 text-white text-xs leading-none flex items-center justify-center hover:bg-zinc-900"
                 >
