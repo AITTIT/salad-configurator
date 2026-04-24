@@ -18,7 +18,7 @@ function Configurator() {
   const [baseIngredients, setBaseIngredients] = useState<Ingredient[]>([]);
   const [isLoading, setLoading] = useState(false);
 
-  const baseType = useIngredientStore((state: IngredientStore) => state.baseType);
+  const baseType = useIngredientStore((state) => state.baseType);
   const authToken = useAuthStore((state) => state.token);
   const fetchPrices = usePriceStore((state) => state.fetchPrices);
   
@@ -27,8 +27,8 @@ function Configurator() {
       try {
         setLoading(true);
 
-        const bowlsData = await getBowls();
-        const categoriesData = await getCategories();
+        const bowlsData = await getBowls(baseType);
+        const categoriesData = await getCategories(baseType);
         const ingredientsData = await getIngredients();
         const baseIngredientsData = await getBaseIngredients();
 
@@ -44,7 +44,7 @@ function Configurator() {
     };
 
     void loadData();
-  }, []);
+  }, [baseType]);
 
   useEffect(() => {
     if (!authToken) return;
@@ -74,11 +74,11 @@ function Configurator() {
       ) : (
         <div className="flex flex-col gap-8">
           <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
-            <BowlSelection bowls={filteredBowls} />
+            <BowlSelection bowls={bowls} />
             <CenterBowl />
             <BaseSelection ingredients={baseIngredients} />
           </div>
-          <IngredientSection categories={filteredCategories} ingredients={ingredients} />
+          <IngredientSection categories={categories} ingredients={ingredients} />
           <SummaryBar />
         </div>
       )}
