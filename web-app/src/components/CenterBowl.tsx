@@ -10,12 +10,57 @@ export default function CenterBowl() {
   const selectedBowl = useIngredientStore((state) => state.selectedBowl);
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const clearSelection = useIngredientStore((state) => state.clearSelection);
+  const clearSlot = useIngredientStore((state) => state.clearSlot);
 
-  const activeSlotIngredients = Object.entries(slots).filter(
-    (
-      entry
-    ): entry is [string, Ingredient] => entry[1] !== null
-  );
+  const slotCount = selectedBowl?.slot_count ?? 0;
+
+  const activeSlotIngredients = Object.entries(slots)
+    .filter(
+      ([slotKey, ingredient]) =>
+        slotKey.startsWith("slot-") && ingredient !== null
+    )
+    .sort(
+      ([slotKeyA], [slotKeyB]) =>
+        Number(slotKeyA.split("-")[1]) - Number(slotKeyB.split("-")[1])
+    ) as [string, Ingredient][];
+
+  const getSlotRotation = (slotKey: string) => {
+    if (!slotCount) return 0;
+
+    const slotNumber = Number(slotKey.split("-")[1]);
+    if (!Number.isFinite(slotNumber) || slotNumber < 1) return 0;
+
+    const step = 360 / slotCount;
+
+    // 4-slot bowl dividers sit on cardinal axes (0/90/180/270),
+    // so wedges must be centered between them.
+    if (slotCount === 4) {
+      return (slotNumber - 1) * step + step / 2;
+    }
+
+    return (slotNumber - 1) * step;
+  };
+
+  const getSlotRadius = () => {
+    if (slotCount === 6) return "40%";
+    if (slotCount === 4) return "46%";
+
+    return "42%";
+  };
+
+  const getSlotScale = () => {
+    if (slotCount === 6) return 0.69;
+    if (slotCount === 4) return 0.90;
+
+    return 0.73;
+  };
+
+  const getSlotBoxSize = () => {
+    if (slotCount === 6) return "68%";
+    if (slotCount === 4) return "74%";
+
+    return "70%";
+  };
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
@@ -90,14 +135,36 @@ export default function CenterBowl() {
           />
         )}
 
-        <div className="relative z-20 flex flex-wrap gap-2 p-4 justify-center">
+        <div className="absolute inset-0 z-30 pointer-events-none">
           {activeSlotIngredients.map(([slotKey, item]) => (
-            <span
+            <div
               key={slotKey}
-              className="px-3 py-1 bg-zinc-200 text-zinc-800 rounded-full text-sm font-medium shadow"
+              className="absolute left-1/2 top-1/2"
+              style={{
+                width: getSlotBoxSize(),
+                height: getSlotBoxSize(),
+                transform: `translate(-50%, -50%) rotate(${getSlotRotation(slotKey)}deg) translateY(-${getSlotRadius()}) scale(${getSlotScale()})`,
+                transformOrigin: "center center",
+              }}
             >
-              {item.name}
-            </span>
+              {item.wedge_image_url ? (
+                <img
+                  src={item.wedge_image_url}
+                  alt={item.name}
+                  className="absolute inset-0 z-30 h-full w-full object-contain"
+                  aria-hidden="true"
+                />
+              ) : null}
+
+              <button
+                type="button"
+                onClick={() => clearSlot(slotKey)}
+                aria-label={`Poista ${item.name}`}
+                className="pointer-events-auto absolute left-1/2 top-4 z-40 -translate-x-1/2 rounded-full bg-zinc-900/90 px-2 py-1 text-xs font-bold text-white shadow hover:bg-zinc-700"
+              >
+                X
+              </button>
+            </div>
           ))}
         </div>
       </div>
