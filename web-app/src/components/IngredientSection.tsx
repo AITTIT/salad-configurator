@@ -49,7 +49,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
 
     setFilteredIngredients(nextFiltered);
   }, [ingredients, categories, selectedCategoryId, searchQuery])
-
+ //j
   return (
    <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
       
