@@ -24,7 +24,8 @@ export interface Ingredient extends Category {
     diets: string[];
     weight_grams: number;
     wedge_image_url?: string;
-    // fetch also returns image_url and barcode_url
+    image_url?: string;
+    barcode_url?: string;
 }
 
 export interface User{
