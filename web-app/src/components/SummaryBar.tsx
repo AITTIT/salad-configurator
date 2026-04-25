@@ -6,15 +6,13 @@ import { usePriceStore } from "../store/usePriceStore";
 
 export default function SummaryBar() {
   const slots = useIngredientStore((state) => state.slots);
-  const removeIngredient = useIngredientStore((state) => state.removeIngredient);
   const prices = usePriceStore((state) => state.prices);
   const clearSlot = useIngredientStore((s) => s.clearSlot);
-  const getSlotKey = useIngredientStore((s) => s.getSlotKeyByIngredientId);
 
-  // Convert slots object into active ingredient array (no nulls)
-  const activeIngredients = Object.values(slots).filter(
-    (item): item is Ingredient => item !== null
+  const activeSlotIngredients = Object.entries(slots).filter(
+    (entry): entry is [string, Ingredient] => entry[1] !== null
   );
+  const activeIngredients = activeSlotIngredients.map(([, item]) => item);
 
   const totalWeight = calculateTotalWeight(activeIngredients);
   const totalPrice = calculateTotalPrice(activeIngredients, prices);
@@ -31,22 +29,18 @@ export default function SummaryBar() {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {activeIngredients.length === 0 ? (
+          {activeSlotIngredients.length === 0 ? (
             <p className="text-gray-300 text-sm">Ei valittuja aineksia.</p>
           ) : (
-            activeIngredients.map((item) => (
+            activeSlotIngredients.map(([slotKey, item]) => (
               <div
-                key={item.id}
+                key={slotKey}
                 className="flex items-center gap-2 bg-zinc-200 text-zinc-900 px-3 py-1 rounded-full text-sm font-medium"
               >
                 <span>{item.name}</span>
                 <button
                 type="button"
-                onClick={() => {
-                  const slotKey = getSlotKey(item.id);
-                  if (slotKey) clearSlot(slotKey);
-                  removeIngredient(item.id);
-                }}
+                onClick={() => clearSlot(slotKey)}
                 aria-label={`Poista ${item.name}`}
                 className="w-5 h-5 rounded-full bg-zinc-700 text-white text-xs leading-none flex items-center justify-center hover:bg-zinc-900"
                 >

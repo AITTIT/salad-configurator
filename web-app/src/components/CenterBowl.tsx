@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useIngredientStore } from "../store/useIngredientStore";
 import SaveRecipeModal from "./SaveRecipeModal";
+import type { Ingredient } from "../types";
 export default function CenterBowl() {
 
   const baseType = useIngredientStore((state) => state.baseType);
@@ -10,8 +11,10 @@ export default function CenterBowl() {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const clearSelection = useIngredientStore((state) => state.clearSelection);
 
-  const activeIngredients = Object.values(slots).filter(
-    (ingredient) => ingredient !== null
+  const activeSlotIngredients = Object.entries(slots).filter(
+    (
+      entry
+    ): entry is [string, Ingredient] => entry[1] !== null
   );
 
   return (
@@ -88,9 +91,9 @@ export default function CenterBowl() {
         )}
 
         <div className="relative z-20 flex flex-wrap gap-2 p-4 justify-center">
-          {activeIngredients.map((item) => (
+          {activeSlotIngredients.map(([slotKey, item]) => (
             <span
-              key={item.id}
+              key={slotKey}
               className="px-3 py-1 bg-zinc-200 text-zinc-800 rounded-full text-sm font-medium shadow"
             >
               {item.name}
