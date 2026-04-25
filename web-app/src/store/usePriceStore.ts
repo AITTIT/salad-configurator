@@ -13,6 +13,7 @@ export const usePriceStore = create<PriceStore>((set) => ({
   fetchPrices: async (token: string) => {
     try {
       const data = await getPrices(token);
+      console.log("Fetched prices:", data);
       set({ prices: data });
     } catch (error) {
       console.error("Failed to fetch prices:", error);
