@@ -86,6 +86,12 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
         ))}
       </div>
 
+      <div className="mt-6 w-full flex justify-center gap-6 text-sm text-gray-300">
+        <span><strong className="text-[#A2D135]">G</strong> = Gluteeniton</span>
+        <span><strong className="text-[#A2D135]">L</strong> = Laktoositon</span>
+        <span><strong className="text-[#A2D135]">V</strong> = Vegaaninen</span>
+      </div>
+
     </div>
   );
 }

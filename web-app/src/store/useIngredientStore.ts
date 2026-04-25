@@ -11,9 +11,10 @@ export interface IngredientStore {
   addIngredient: (item: Ingredient) => void;
   removeIngredient: (id: number) => void;
   clearSlot: (slotId: string) => void;
+  getSlotKeyByIngredientId: (id: number) => string | undefined;
 }
 
-export const useIngredientStore = create<IngredientStore>((set) => ({
+export const useIngredientStore = create<IngredientStore>((set, get) => ({
   slots: {},
   baseType: 1,
   selectedBowl: null,
@@ -80,5 +81,10 @@ export const useIngredientStore = create<IngredientStore>((set) => ({
     set((state) => ({
       slots: { ...state.slots, [slotId]: null },
     })),
-    
+  
+  getSlotKeyByIngredientId: (id: number) => {
+    const { slots } = get();
+    return Object.keys(slots).find((key) => slots[key]?.id === id);
+  },
+
 }));
