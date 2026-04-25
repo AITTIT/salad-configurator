@@ -49,12 +49,16 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
 
     setFilteredIngredients(nextFiltered);
   }, [ingredients, categories, selectedCategoryId, searchQuery])
-
+ //j
   return (
-    <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center">
-      <div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center mb-4 mx-auto font-bold">
-        3.
-      </div>
+   <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
+      
+    <p className="absolute top-9 left-9 text-base text-white">
+      Kirjaudu nähdäksesi hinnat
+    </p>
+
+<div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center mb-4 self-center font-bold">    3.
+  </div>
 
       <div className="flex flex-wrap gap-3">
         <input
