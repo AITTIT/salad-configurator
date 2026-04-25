@@ -29,7 +29,7 @@ export default function IngredientCard({ ingredient }: IngredientCardProps) {
       {isLoggedIn ? (
         <span className="text-lg text-black text-center font-semibold">{priceLabel}</span>
       ) : (
-        <span className="text-lg text-black text-center">Kirjaudu nähdäksesi hinta</span>
+        <span className="text-lg text-black text-center">- €</span>
       )}
       <div className="flex justify-center gap-2 mt-2 flex-wrap">
         {ingredient.diets?.map((diet) => (
