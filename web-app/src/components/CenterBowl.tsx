@@ -78,12 +78,12 @@ export default function CenterBowl() {
   const baseImageSrc = selectedBase?.image_url ?? null;
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
-      <div className="flex-1 flex flex-row gap-5">
+    <div className="flex-1 flex flex-col items-center justify-start min-h-[400px] mt-0 lg:mt-0">
+      <div className="flex flex-row items-start gap-5">
         {/* Salaatti button */}
         <button
           onClick={() => setBaseType(1)}
-          className={`flex gap-3 mb-6 items-center px-4 py-2 rounded-full font-bold transition-colors ${
+          className={`inline-flex w-fit shrink-0 whitespace-nowrap mb-6 items-center px-4 py-3 rounded-full font-bold leading-none transition-colors ${
             baseType === 1
               ? "bg-[#A2D135] text-black"
               : "bg-zinc-700 text-white hover:bg-zinc-600"
@@ -94,7 +94,7 @@ export default function CenterBowl() {
         {/* Rahka button */}
          <button
           onClick={() => setBaseType(2)}
-          className={`flex gap-3 mb-6 items-center px-4 py-2 rounded-full font-bold transition-colors ${
+          className={`inline-flex w-fit shrink-0 whitespace-nowrap mb-6 items-center px-4 py-3 rounded-full font-bold leading-none transition-colors ${
             baseType === 2
               ? "bg-[#A2D135] text-black"
               : "bg-zinc-700 text-white hover:bg-zinc-600"

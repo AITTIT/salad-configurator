@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Category, Ingredient } from "../types";
 import IngredientCard from "./IngredientCard";
+import { useAuthStore } from "../store/useAuthStore";
 
 interface IngredientSectionProps {
   ingredients?: Ingredient[];
@@ -11,6 +12,8 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [filteredIngredients, setFilteredIngredients] = useState<Ingredient[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const token = useAuthStore((state) => state.token);
+  const isLoggedIn = Boolean(token);
 
   // Hide base category tab (id 6)
   const categoryTabs = categories?.filter((category) => category.id !== 6);
@@ -52,12 +55,20 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
  //j
   return (
    <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
-      
-    <p className="absolute top-9 left-9 text-base text-white">
-      Kirjaudu nähdäksesi hinnat
-    </p>
 
-<div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center mb-4 self-center font-bold">    3.
+    {!isLoggedIn && (
+      <p className="absolute top-9 left-9 text-base text-white">
+        Kirjaudu nähdäksesi hinnat
+      </p>
+    )}
+
+  <div className="flex items-center gap-3 mb-4">
+    <div className="w-10 h-10 shrink-0 rounded-full bg-white text-black flex items-center justify-center font-bold leading-none">
+        3.
+    </div>
+    <div className="font-bold">
+      Lisää raaka-aineet
+    </div>
   </div>
 
       <div className="flex flex-wrap gap-3">

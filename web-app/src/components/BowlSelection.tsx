@@ -14,9 +14,9 @@ export default function BowlSelection({ bowls }: BowlSelectionProps) {
 
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg gap-5">
-      <span className="bg-white text-black font-bold rounded-full w-8 h-8 flex items-center justify-center mb-4 shrink-0">
+      <div className="w-10 h-10 font-bold rounded-full bg-white text-black flex items-center justify-center mb-4">
         1.
-      </span>
+      </div>
 
       {/* Go through bowls array with .map() function */}
       {bowls?.map((bowl) => (
