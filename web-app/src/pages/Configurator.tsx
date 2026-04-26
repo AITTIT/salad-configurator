@@ -76,8 +76,19 @@ function Configurator() {
           <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
             <BowlSelection bowls={bowls} />
             <CenterBowl />
-            <BaseSelection ingredients={baseIngredients} />
-          </div>
+            {baseType === 1 ? (
+    <BaseSelection ingredients={baseIngredients} />
+  ) : (
+    <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center justify-start shadow-lg pt-8">
+  <div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center mb-4">
+    2.
+  </div>
+  <p className="text-white text-sm text-center">
+    Rahkalle ei ole pohjavaihtoehtoja
+  </p>
+</div>
+  )}
+</div>
           <IngredientSection categories={categories} ingredients={ingredients} />
           <SummaryBar />
         </div>
