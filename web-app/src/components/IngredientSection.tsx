@@ -86,8 +86,8 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
             key={category.id}
             onClick={() => setSelectedCategoryId(category.id)}
             className={`px-6 py-2 rounded-full font-bold ${selectedCategoryId === category.id
-                ? "bg-[#A2D135] text-black opacity-60"
-                : "bg-[#A2D135] text-white"
+                ? "bg-[#A2D135] text-black opacity-55"
+                : "bg-[#A2D135] text-black"
               }`}
           >
             {category.name}
@@ -102,9 +102,18 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
       </div>
 
       <div className="mt-6 w-full flex justify-center gap-6 text-sm text-gray-300">
-        <span><strong className="text-[#A2D135]">G</strong> = Gluteeniton</span>
-        <span><strong className="text-[#A2D135]">L</strong> = Laktoositon</span>
-        <span><strong className="text-[#A2D135]">V</strong> = Vegaaninen</span>
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#A2D135] text-xs font-bold text-black">G</span>
+          Gluteeniton
+        </span>
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#A2D135] text-xs font-bold text-black">L</span>
+          Laktoositon
+        </span>
+        <span className="inline-flex items-center gap-2">
+          <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#A2D135] text-xs font-bold text-black">V</span>
+          Vegaaninen
+        </span>
       </div>
 
     </div>

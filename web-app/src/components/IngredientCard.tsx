@@ -16,6 +16,8 @@ export default function IngredientCard({ ingredient }: IngredientCardProps) {
   const ingredientPrice = ingredientPrices?.find(
     (priceItem) => ingredient.id === priceItem.item_id
   );
+  const primaryDiet = ingredient.diets?.[0] ?? null;
+  const dietBadge = primaryDiet ? primaryDiet.trim().charAt(0).toUpperCase() : null;
 
   const priceLabel = ingredientPrice 
     ? `+ ${ingredientPrice.price.toFixed(2)} €`
@@ -23,20 +25,54 @@ export default function IngredientCard({ ingredient }: IngredientCardProps) {
 
   return (
     <div
-    onClick={() => addIngredient(ingredient)}
-    className="w-40 h-40 p-4 border rounded-lg shadow-md flex flex-col justify-between bg-white">
-      <h3 className="text-lg font-semibold text-center text-black">{ingredient.name}</h3>
-      {isLoggedIn ? (
-        <span className="text-lg text-black text-center font-semibold">{priceLabel}</span>
-      ) : (
-        <span className="text-lg text-black text-center">- €</span>
-      )}
-      <div className="flex justify-center gap-2 mt-2 flex-wrap">
-        {ingredient.diets?.map((diet) => (
-          <span key={diet} className="text-sm bg-gray-500 rounded px-2 py-1">
-            {diet}
-          </span>
-        ))}
+      onClick={() => addIngredient(ingredient)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") addIngredient(ingredient);
+      }}
+      className="w-56 min-h-[72px] overflow-hidden rounded-2xl bg-white text-black shadow-md transition-transform hover:scale-[1.01] cursor-pointer"
+    >
+      <div className="flex h-full items-stretch">
+        <div className="relative h-[72px] w-[72px] shrink-0">
+          {ingredient.image_url ? (
+            <img
+              src={ingredient.image_url}
+              alt={ingredient.name}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div
+              aria-hidden="true"
+              className="h-full w-full bg-zinc-200"
+            />
+          )}
+
+          {dietBadge && (
+            <span className="absolute right-1 top-1 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#A2D135] text-[11px] font-bold text-black shadow">
+              {dietBadge}
+            </span>
+          )}
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col justify-center px-3 py-2">
+          <h3
+            className="text-sm font-semibold leading-tight"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            {ingredient.name}
+          </h3>
+          {isLoggedIn ? (
+            <span className="mt-1 text-xs font-semibold text-zinc-700">{priceLabel}</span>
+          ) : (
+            <span className="mt-1 text-xs text-zinc-700">- €</span>
+          )}
+        </div>
       </div>
     </div>
   );
