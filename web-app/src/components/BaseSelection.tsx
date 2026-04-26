@@ -51,7 +51,7 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
           ) : (
             <div
               aria-hidden="true"
-              className="h-7 w-7 rounded-full border border-white/30 bg-white/10"
+              className="h-14 w-14 rounded-full border border-white/30 bg-white/10"
             />
           )}
         </div>
