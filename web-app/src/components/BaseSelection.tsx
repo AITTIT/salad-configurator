@@ -18,8 +18,12 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg">
 
-      <div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center mb-4">
+      <div className="w-10 h-10 font-bold rounded-full bg-white text-black flex items-center justify-center mb-4">
         2.
+      </div>
+
+      <div className='font-bold'>
+        Valitse salaattipohja
       </div>
 
       {bases?.map((base) => (
@@ -31,13 +35,25 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") addIngredient(base);
           }}
-          className={`w-full h-12 border-2 rounded-xl flex items-center justify-between px-4 mt-3 cursor-pointer transition-colors ${
+          className={`w-full h-16 rounded-xl flex items-center justify-between px-4 mt-3 cursor-pointer transition-colors ${
             selectedBase?.id === base.id
               ? "border-[#A2D135] bg-[#A2D135] text-black font-bold"
               : "border-gray-600 hover:bg-gray-700"
           }`}
         >
-          {base.name}
+          <span>{base.name}</span>
+          {base.image_url ? (
+            <img
+              src={base.image_url}
+              alt={base.name}
+              className="h-14 w-14 m-1 rounded-full object-cover border border-white/40"
+            />
+          ) : (
+            <div
+              aria-hidden="true"
+              className="h-7 w-7 rounded-full border border-white/30 bg-white/10"
+            />
+          )}
         </div>
       ))}
 
