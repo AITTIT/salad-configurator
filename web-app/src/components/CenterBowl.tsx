@@ -11,6 +11,7 @@ export default function CenterBowl() {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const clearSelection = useIngredientStore((state) => state.clearSelection);
   const clearSlot = useIngredientStore((state) => state.clearSlot);
+  const selectedBase = slots.base ?? null;
 
   const slotCount = selectedBowl?.slot_count ?? 0;
 
@@ -61,6 +62,20 @@ export default function CenterBowl() {
 
     return "70%";
   };
+
+  const getBaseClipPath = () => {
+    if (!selectedBowl) return "none";
+
+    if (selectedBowl.shape === "round") {
+      // Push the center a bit down to better match the visible bowl cavity.
+      return "circle(46% at 50% 50%)";
+    }
+
+    // Square bowls have rounded corners in practice.
+    return "inset(8% 8% 8% 8% round 15%)";
+  };
+
+  const baseImageSrc = selectedBase?.image_url ?? null;
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center min-h-[400px] mt-4 lg:mt-0">
@@ -120,6 +135,20 @@ export default function CenterBowl() {
           className="absolute inset-0 z-10 w-full h-full object-contain pointer-events-none"
           aria-hidden="true"
           />
+        )}
+
+        {baseImageSrc && selectedBowl && (
+          <div
+            className="absolute inset-0 z-[15] overflow-hidden pointer-events-none"
+            style={{ clipPath: getBaseClipPath() }}
+            aria-hidden="true"
+          >
+            <img
+              src={baseImageSrc}
+              alt={selectedBase?.name ?? "base salad"}
+              className="h-full w-full object-cover"
+            />
+          </div>
         )}
 
         {selectedBowl?.slot_count && (
