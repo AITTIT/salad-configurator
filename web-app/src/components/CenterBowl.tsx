@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useIngredientStore } from "../store/useIngredientStore";
 import SaveRecipeModal from "./SaveRecipeModal";
 import type { Ingredient } from "../types";
+import { usePriceStore } from "../store/usePriceStore";
+import { calculateTotalWeight, calculateTotalPrice } from "../utils/calculations";
 export default function CenterBowl() {
 
   const baseType = useIngredientStore((state) => state.baseType);
@@ -12,7 +14,11 @@ export default function CenterBowl() {
   const clearSelection = useIngredientStore((state) => state.clearSelection);
   const clearSlot = useIngredientStore((state) => state.clearSlot);
   const selectedBase = slots.base ?? null;
+  const prices = usePriceStore((state) => state.prices);
 
+  const activeIngredients = Object.values(slots).filter(
+    (item): item is Ingredient => item !== null
+  );
   const slotCount = selectedBowl?.slot_count ?? 0;
 
   const activeSlotIngredients = Object.entries(slots)
@@ -41,6 +47,9 @@ export default function CenterBowl() {
 
     return (slotNumber - 1) * step;
   };
+
+  const totalWeight = calculateTotalWeight(activeIngredients);
+  const totalPrice = calculateTotalPrice(activeIngredients, prices);
 
   const getSlotRadius = () => {
     if (slotCount === 6) return "40%";
@@ -94,7 +103,7 @@ export default function CenterBowl() {
           Salaatti
         </button>
         {/* Rahka button */}
-         <button
+        <button
           onClick={() => setBaseType(2)}
           disabled={!!selectedBowl}
           className={`inline-flex w-fit shrink-0 whitespace-nowrap mb-6 items-center px-4 py-3 rounded-full font-bold leading-none transition-colors ${
@@ -117,7 +126,7 @@ export default function CenterBowl() {
             }}
           >
             🗑️
-            </button>
+          </button>
           <button
             onClick={() => alert('Feature coming soon!')}
           >
@@ -133,11 +142,11 @@ export default function CenterBowl() {
       </div>
       <div className="w-80 h-80 bg-transparent flex items-center justify-center shadow-inner relative">
         {selectedBowl?.image_url && (
-          <img 
-          src={selectedBowl.image_url} 
-          alt={selectedBowl.name ?? "bowl"}
-          className="absolute inset-0 z-10 w-full h-full object-contain pointer-events-none"
-          aria-hidden="true"
+          <img
+            src={selectedBowl.image_url}
+            alt={selectedBowl.name ?? "bowl"}
+            className="absolute inset-0 z-10 w-full h-full object-contain pointer-events-none"
+            aria-hidden="true"
           />
         )}
 
@@ -202,7 +211,10 @@ export default function CenterBowl() {
         </div>
       </div>
       {/*Added margin*/}
-      <div className="my-5">100 g / 1.99 € { selectedBowl ? selectedBowl.volume : 0} ml</div>
+      <div className="w-80 flex justify-between items-center my-5">
+        <span className="text-sm font-semibold">{totalWeight} g / {totalPrice.toFixed(2)} €</span>
+        <span className="text-sm font-semibold">{selectedBowl ? selectedBowl.volume : 0} ml</span>
+      </div>
     </div>
   );
 }
