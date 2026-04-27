@@ -6,7 +6,7 @@ import { getBowls, getIngredients, getCategories, getBaseIngredients } from "../
 import BaseSelection from "../components/BaseSelection.tsx";
 import BowlSelection from "../components/BowlSelection";
 import IngredientSection from "../components/IngredientSection.tsx";
-import { useIngredientStore, type IngredientStore } from "../store/useIngredientStore.ts";
+import { useIngredientStore } from "../store/useIngredientStore.ts";
 import { usePriceStore } from "../store/usePriceStore.ts";
 import { useAuthStore } from "../store/useAuthStore.ts";
 import SummaryBar from "../components/SummaryBar.tsx";
@@ -51,18 +51,6 @@ function Configurator() {
 
     void fetchPrices(authToken);
   }, [authToken, fetchPrices]);
-
-  // Filter bowls and categories to only those matching the selected baseType
-  const filteredBowls = bowls.filter((bowl) => bowl.base_type_id === baseType);
-  const filteredCategories = categories.filter((category) => category.base_type_id === baseType);
-
-  // Print fetch into console for testing
-  useEffect(() => {
-    console.log("Fetched bowls: ", bowls);
-    console.log("Fetched categories:", categories);
-    console.log("Fetched ingredients:", ingredients);
-    console.log("Fetched base ingredients:", baseIngredients);
-  }, [bowls, categories, ingredients, baseIngredients]);
 
   return (
     <div>

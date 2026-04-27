@@ -119,9 +119,6 @@ export function Header() {
      <LoginModal
       isOpen={isLoginOpen}
       onClose={() => setIsLoginOpen(false)}
-      onLogin={({ email, password }) => {
-        console.log("Login:", email, password);
-      }}
     />
 
     </div>

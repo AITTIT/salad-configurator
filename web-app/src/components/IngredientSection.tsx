@@ -65,11 +65,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
   };
 
   return (
-<<<<<<< HEAD
-    <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
-=======
    <div className="selection-panel p-8 relative">
->>>>>>> 68ecade (WIP: local changes)
 
       {!isLoggedIn && (
         <p className="absolute top-9 left-9 text-base text-white">
@@ -78,13 +74,8 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
       )}
 
       <div className="flex items-center gap-3 mb-4">
-<<<<<<< HEAD
-        <div className="w-10 h-10 shrink-0 rounded-full bg-white text-black flex items-center justify-center font-bold leading-none">
-          3.
-=======
         <div className="selection-panel-number shrink-0 leading-none">
             3.
->>>>>>> 68ecade (WIP: local changes)
         </div>
         <div className="font-bold">
           Lisää raaka-aineet
