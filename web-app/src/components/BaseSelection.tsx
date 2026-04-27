@@ -16,9 +16,9 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
   const selectedBase = slots["base"] ?? null;
 
   return (
-    <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg">
+    <div className="selection-panel side-panel">
 
-      <div className="w-10 h-10 font-bold rounded-full bg-white text-black flex items-center justify-center mb-4">
+      <div className="selection-panel-number mb-4">
         2.
       </div>
 
@@ -27,14 +27,9 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
       </div>
 
       {bases?.map((base) => (
-        <div
+        <button
           key={base.id}
-          role="button"
-          tabIndex={0}
           onClick={() => addIngredient(base)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") addIngredient(base);
-          }}
           className={`w-full h-16 rounded-xl flex items-center justify-between px-4 mt-3 cursor-pointer transition-colors ${
             selectedBase?.id === base.id
               ? "border-[#A2D135] bg-[#A2D135] text-black font-bold"
@@ -54,7 +49,7 @@ export default function BaseSelection({ ingredients }: BaseSelectionProps) {
               className="h-14 w-14 rounded-full border border-white/30 bg-white/10"
             />
           )}
-        </div>
+        </button>
       ))}
 
       {/* Loading text if no bases yet received. */}
