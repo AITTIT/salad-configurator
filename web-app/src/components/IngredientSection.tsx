@@ -23,7 +23,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
       setSelectedCategoryId(categoryTabs[0].id);
     }
   }, [categoryTabs, selectedCategoryId]);
-  
+
   useEffect(() => {
     // a lookup of category IDs that are allowed for current baseType.
     const allowedCategoryIds = new Set((categories ?? []).map((category) => category.id));
@@ -44,7 +44,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
         // search across all categories limited by basetype
         return ingredient.name.toLowerCase().includes(normalizedQuery);
       }
-      
+
       // No search text:
       // show only items from selected tab/category.
       return ingredient.categoryId === selectedCategoryId;
@@ -52,24 +52,24 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
 
     setFilteredIngredients(nextFiltered);
   }, [ingredients, categories, selectedCategoryId, searchQuery])
- //j
+  //j
   return (
-   <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
+    <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
 
-    {!isLoggedIn && (
-      <p className="absolute top-9 left-9 text-base text-white">
-        Kirjaudu nähdäksesi hinnat
-      </p>
-    )}
+      {!isLoggedIn && (
+        <p className="absolute top-9 left-9 text-base text-white">
+          Kirjaudu nähdäksesi hinnat
+        </p>
+      )}
 
-  <div className="flex items-center gap-3 mb-4">
-    <div className="w-10 h-10 shrink-0 rounded-full bg-white text-black flex items-center justify-center font-bold leading-none">
-        3.
-    </div>
-    <div className="font-bold">
-      Lisää raaka-aineet
-    </div>
-  </div>
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 shrink-0 rounded-full bg-white text-black flex items-center justify-center font-bold leading-none">
+          3.
+        </div>
+        <div className="font-bold">
+          Lisää raaka-aineet
+        </div>
+      </div>
 
       <div className="flex flex-wrap gap-3">
         <input
@@ -77,7 +77,14 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
           className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 focus:border-[#A2D135] bg-gray-200"
           placeholder="Etsi tuotteita"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            if (e.target.value.length > 0) {
+              setSelectedCategoryId(null);
+            } else {
+              setSelectedCategoryId(categoryTabs?.[0]?.id ?? null);
+            }
+          }}
         />
 
         {categoryTabs?.map((category) => (
@@ -86,8 +93,8 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
             key={category.id}
             onClick={() => setSelectedCategoryId(category.id)}
             className={`px-6 py-2 rounded-full font-bold ${selectedCategoryId === category.id
-                ? "bg-[#A2D135] text-black opacity-55"
-                : "bg-[#A2D135] text-black"
+              ? "bg-[#A2D135] text-black opacity-55"
+              : "bg-[#A2D135] text-black"
               }`}
           >
             {category.name}
