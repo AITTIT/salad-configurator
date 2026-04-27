@@ -14,6 +14,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
   const [searchQuery, setSearchQuery] = useState<string>("");
   const token = useAuthStore((state) => state.token);
   const isLoggedIn = Boolean(token);
+  const isSearching = searchQuery.trim().length > 0;
 
   // Hide base category tab (id 6)
   const categoryTabs = categories?.filter((category) => category.id !== 6);
@@ -36,10 +37,10 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
 
     // Normalize search input for case-insensitive matching and trim extra spaces.
     const normalizedQuery = searchQuery.trim().toLowerCase();
-    const isSearching = normalizedQuery.length > 0;
+    const hasSearchText = normalizedQuery.length > 0;
 
     const nextFiltered = allowedIngredients.filter((ingredient) => {
-      if (isSearching) {
+      if (hasSearchText) {
         // Search takes priority
         // search across all categories limited by basetype
         return ingredient.name.toLowerCase().includes(normalizedQuery);
@@ -53,6 +54,16 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
     setFilteredIngredients(nextFiltered);
   }, [ingredients, categories, selectedCategoryId, searchQuery])
   //j
+
+  const getCategoryButtonClassName = (categoryId: number) => {
+    const isCategorySelected = !isSearching && selectedCategoryId === categoryId;
+
+    return `px-6 py-2 rounded-full font-bold ${isCategorySelected
+      ? "bg-[#A2D135] text-black opacity-55"
+      : "bg-[#A2D135] text-black"
+      }`;
+  };
+
   return (
     <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
 
@@ -77,14 +88,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
           className="rounded-full px-6 py-3 text-black outline-none w-64 border-2 focus:border-[#A2D135] bg-gray-200"
           placeholder="Etsi tuotteita"
           value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            if (e.target.value.length > 0) {
-              setSelectedCategoryId(null);
-            } else {
-              setSelectedCategoryId(categoryTabs?.[0]?.id ?? null);
-            }
-          }}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
         {categoryTabs?.map((category) => (
@@ -92,10 +96,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
             type="button"
             key={category.id}
             onClick={() => setSelectedCategoryId(category.id)}
-            className={`px-6 py-2 rounded-full font-bold ${selectedCategoryId === category.id
-              ? "bg-[#A2D135] text-black opacity-55"
-              : "bg-[#A2D135] text-black"
-              }`}
+            className={getCategoryButtonClassName(category.id)}
           >
             {category.name}
           </button>
