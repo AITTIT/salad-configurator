@@ -6,7 +6,7 @@ import { getBowls, getIngredients, getCategories, getBaseIngredients } from "../
 import BaseSelection from "../components/BaseSelection.tsx";
 import BowlSelection from "../components/BowlSelection";
 import IngredientSection from "../components/IngredientSection.tsx";
-import { useIngredientStore, type IngredientStore } from "../store/useIngredientStore.ts";
+import { useIngredientStore } from "../store/useIngredientStore.ts";
 import { usePriceStore } from "../store/usePriceStore.ts";
 import { useAuthStore } from "../store/useAuthStore.ts";
 import SummaryBar from "../components/SummaryBar.tsx";
@@ -52,18 +52,6 @@ function Configurator() {
     void fetchPrices(authToken);
   }, [authToken, fetchPrices]);
 
-  // Filter bowls and categories to only those matching the selected baseType
-  const filteredBowls = bowls.filter((bowl) => bowl.base_type_id === baseType);
-  const filteredCategories = categories.filter((category) => category.base_type_id === baseType);
-
-  // Print fetch into console for testing
-  useEffect(() => {
-    console.log("Fetched bowls: ", bowls);
-    console.log("Fetched categories:", categories);
-    console.log("Fetched ingredients:", ingredients);
-    console.log("Fetched base ingredients:", baseIngredients);
-  }, [bowls, categories, ingredients, baseIngredients]);
-
   return (
     <div>
       {isLoading ? (
@@ -79,8 +67,8 @@ function Configurator() {
             {baseType === 1 ? (
     <BaseSelection ingredients={baseIngredients} />
   ) : (
-    <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center justify-start shadow-lg pt-8">
-  <div className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center mb-4">
+    <div className="selection-panel side-panel">
+  <div className="selection-panel-number mb-4">
     2.
   </div>
   <p className="text-white text-sm text-center">

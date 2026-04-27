@@ -13,8 +13,8 @@ export default function BowlSelection({ bowls }: BowlSelectionProps) {
   const setBowl = useIngredientStore((state) => state.setBowl);
 
   return (
-    <div className="bg-zinc-800 rounded-[3rem] p-6 text-white w-full lg:w-1/4 flex flex-col items-center shadow-lg gap-5">
-      <div className="w-10 h-10 font-bold rounded-full bg-white text-black flex items-center justify-center">
+    <div className="selection-panel side-panel gap-5">
+      <div className="selection-panel-number">
         1.
       </div>
 

@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+.ingredient-search-bar {
+  @apply rounded-full px-6 py-3 text-black outline-none w-64 border-2 focus:border-[#A2D135] bg-gray-200;
+}
+
+.selected-ingredients-summary-panel {
+  @apply w-10 h-10 font-bold rounded-full bg-white text-black flex items-center justify-center;
+}
+
+.selection-panel {
+  @apply bg-zinc-800 rounded-[3rem] text-white w-full flex flex-col items-center shadow-lg;
+}
+
+.selection-panel-number {
+  @apply w-10 h-10 font-bold rounded-full bg-white text-black flex items-center justify-center;
+}
+
+.side-panel {
+  @apply p-6 lg:w-1/4;
+}
