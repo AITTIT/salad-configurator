@@ -92,20 +92,26 @@ export default function CenterBowl() {
         {/* Salaatti button */}
         <button
           onClick={() => setBaseType(1)}
-          className={`inline-flex w-fit shrink-0 whitespace-nowrap mb-6 items-center px-4 py-3 rounded-full font-bold leading-none transition-colors ${baseType === 1
-            ? "bg-[#A2D135] text-black"
-            : "bg-zinc-700 text-white hover:bg-zinc-600"
-            }`}
+          disabled={selectedBowl !== null}
+          className={`inline-flex w-fit shrink-0 whitespace-nowrap mb-6 items-center px-4 py-3 rounded-full font-bold leading-none transition-colors ${
+            baseType === 1
+              ? "bg-[#A2D135] text-black"
+              : "bg-zinc-700 text-white hover:bg-zinc-600"
+              } ${!!selectedBowl && baseType !== 1 ? "opacity-40 cursor-not-allowed" : ""
+          }`}
         >
           Salaatti
         </button>
         {/* Rahka button */}
         <button
           onClick={() => setBaseType(2)}
-          className={`inline-flex w-fit shrink-0 whitespace-nowrap mb-6 items-center px-4 py-3 rounded-full font-bold leading-none transition-colors ${baseType === 2
-            ? "bg-[#A2D135] text-black"
-            : "bg-zinc-700 text-white hover:bg-zinc-600"
-            }`}
+          disabled={!!selectedBowl}
+          className={`inline-flex w-fit shrink-0 whitespace-nowrap mb-6 items-center px-4 py-3 rounded-full font-bold leading-none transition-colors ${
+            baseType === 2
+              ? "bg-[#A2D135] text-black"
+              : "bg-zinc-700 text-white hover:bg-zinc-600"
+              } ${!!selectedBowl && baseType !== 2 ? "opacity-40 cursor-not-allowed" : ""
+          }`}
         >
           Rahka
         </button>

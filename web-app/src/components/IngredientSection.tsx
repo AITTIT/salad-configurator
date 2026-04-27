@@ -14,6 +14,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
   const [searchQuery, setSearchQuery] = useState<string>("");
   const token = useAuthStore((state) => state.token);
   const isLoggedIn = Boolean(token);
+  const isSearching = searchQuery.trim().length > 0;
 
   // Hide base category tab (id 6)
   const categoryTabs = categories?.filter((category) => category.id !== 6);
@@ -23,7 +24,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
       setSelectedCategoryId(categoryTabs[0].id);
     }
   }, [categoryTabs, selectedCategoryId]);
-  
+
   useEffect(() => {
     // a lookup of category IDs that are allowed for current baseType.
     const allowedCategoryIds = new Set((categories ?? []).map((category) => category.id));
@@ -36,15 +37,15 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
 
     // Normalize search input for case-insensitive matching and trim extra spaces.
     const normalizedQuery = searchQuery.trim().toLowerCase();
-    const isSearching = normalizedQuery.length > 0;
+    const hasSearchText = normalizedQuery.length > 0;
 
     const nextFiltered = allowedIngredients.filter((ingredient) => {
-      if (isSearching) {
+      if (hasSearchText) {
         // Search takes priority
         // search across all categories limited by basetype
         return ingredient.name.toLowerCase().includes(normalizedQuery);
       }
-      
+
       // No search text:
       // show only items from selected tab/category.
       return ingredient.categoryId === selectedCategoryId;
@@ -52,24 +53,34 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
 
     setFilteredIngredients(nextFiltered);
   }, [ingredients, categories, selectedCategoryId, searchQuery])
- //j
+  //j
+
+  const getCategoryButtonClassName = (categoryId: number) => {
+    const isCategorySelected = !isSearching && selectedCategoryId === categoryId;
+
+    return `px-6 py-2 rounded-full font-bold ${isCategorySelected
+      ? "bg-[#A2D135] text-black opacity-55"
+      : "bg-[#A2D135] text-black"
+      }`;
+  };
+
   return (
-   <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
+    <div className="bg-zinc-800 rounded-[3rem] p-8 text-white w-full shadow-lg flex flex-col items-center relative">
 
-    {!isLoggedIn && (
-      <p className="absolute top-9 left-9 text-base text-white">
-        Kirjaudu nähdäksesi hinnat
-      </p>
-    )}
+      {!isLoggedIn && (
+        <p className="absolute top-9 left-9 text-base text-white">
+          Kirjaudu nähdäksesi hinnat
+        </p>
+      )}
 
-  <div className="flex items-center gap-3 mb-4">
-    <div className="w-10 h-10 shrink-0 rounded-full bg-white text-black flex items-center justify-center font-bold leading-none">
-        3.
-    </div>
-    <div className="font-bold">
-      Lisää raaka-aineet
-    </div>
-  </div>
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 shrink-0 rounded-full bg-white text-black flex items-center justify-center font-bold leading-none">
+          3.
+        </div>
+        <div className="font-bold">
+          Lisää raaka-aineet
+        </div>
+      </div>
 
       <div className="flex flex-wrap gap-3">
         <input
@@ -85,10 +96,7 @@ export default function IngredientSection({ categories, ingredients }: Ingredien
             type="button"
             key={category.id}
             onClick={() => setSelectedCategoryId(category.id)}
-            className={`px-6 py-2 rounded-full font-bold ${selectedCategoryId === category.id
-                ? "bg-[#A2D135] text-black opacity-55"
-                : "bg-[#A2D135] text-black"
-              }`}
+            className={getCategoryButtonClassName(category.id)}
           >
             {category.name}
           </button>

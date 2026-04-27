@@ -28,7 +28,7 @@ export const useIngredientStore = create<IngredientStore>((set, get) => ({
   },
 //setter
   clearSelection: () =>
-    set({ slots: {}, selectedBowl: null }),
+    set({ slots: {}, selectedBowl: null, baseType: 1 }),
 
   addIngredient: (item: Ingredient) =>
     set((state) => {
