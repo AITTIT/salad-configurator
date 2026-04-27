@@ -68,8 +68,8 @@ function Configurator() {
     <div>
       {isLoading ? (
         <div>
-          {/*Create loading wheel here.*/}
-          <p>Loading ingredients...</p>
+          {/* Create loading wheel here if the customer wants it in the future. */}
+          <p>Ladataan...</p>
         </div>
       ) : (
         <div className="flex flex-col gap-8">
